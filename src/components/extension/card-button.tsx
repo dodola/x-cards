@@ -8,6 +8,7 @@ import { PreviewToast } from "./x-cards-toast";
 import { useTweetsStore } from "./use-tweet-collection";
 import type { PlasmoCSUIAnchor } from "plasmo";
 import { Plus } from "lucide-react";
+import { tweet2Markdown, tweet2NotionBlock } from '@src/app/utils/export';
 
 export const CardButton: React.FC<{
     anchor: PlasmoCSUIAnchor
@@ -15,6 +16,7 @@ export const CardButton: React.FC<{
     const [isLoading, setIsLoading] = useState(false);
 
     const cardConfig = useRef({});
+    // const url = 'http://localhost:9989' + encodeURIComponent('https://api.notion.com/');
 
     const handleCopyAsCellCard = async (e) => {
         e.stopPropagation();
@@ -32,29 +34,46 @@ export const CardButton: React.FC<{
 
             const thread = getPostThread(postElement);
             const tweetInfos = _.compact(thread?.map(e => extractTweetInfo(e)));
+            chrome.runtime.sendMessage({
+                action: "createNotionPage",
+                data: tweetInfos,
+            }, (response) => {
+                if (response.error) {
+                    console.log(response.error);
+                    toast.error(`Error creating Notion page: ${response.error}`, { duration: 500 });
+                } else {
+                    console.log("Notion page created successfully");
+                    toast.success("👏 Notion page created successfully", {
+                        duration: 500,
+                    })
+                }
+            });
+
+
 
             // toast.success("👏  Copy the card to clipboard", {
             //     duration: 500,
             // })
 
-            useTweetsStore.setState((state) => {
-                state.tweets = tweetInfos;
-                state.activeTab = 'linear';
-                state.imageSrc = imageSrc;
-                return state;
-            });
-            toast.remove('preview-toast');
-            toast.custom((t) => {
-                return (<PreviewToast
-                    anchor={anchor}
-                    tweetInfos={tweetInfos}
-                    tweetInfo={tweetInfo}
-                ></PreviewToast>)
-            }, {
-                id: 'preview-toast',
-                duration: Infinity,
-                position: 'top-right',
-            })
+            // useTweetsStore.setState((state) => {
+            //     state.tweets = tweetInfos;
+            //     state.activeTab = 'linear';
+            //     state.imageSrc = imageSrc;
+            //     return state;
+            // });
+            // toast.remove('preview-toast');
+
+            // toast.custom((t) => {
+            //     return (<PreviewToast
+            //         anchor={anchor}
+            //         tweetInfos={tweetInfos}
+            //         tweetInfo={tweetInfo}
+            //     ></PreviewToast>)
+            // }, {
+            //     id: 'preview-toast',
+            //     duration: Infinity,
+            //     position: 'top-right',
+            // })
         } catch (error) {
             toast.error(`Error copying card: ${error.message}`);
             console.error("Error generating card:", error);

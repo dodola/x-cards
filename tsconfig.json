@@ -7,7 +7,8 @@
     "**/*.tsx",
     "src/components/ui/**/*.ts",
     "src/components/ui/**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/options/*.tsx",
   ],
   
   "compilerOptions": {

@@ -1,6 +1,6 @@
 {
-  "name": "X Cards Native Tweet Card service for X",
-  "displayName": "Seamlessly integrate card services directly on your X",
+  "name": "X Cards Notion",
+  "displayName": "X Cards Notion",
   "version": "0.0.3",
   "description": "Create stunning tweet cards effortlessly with X Cards on Twitter. Share your thoughts, ideas, and creations with style and flair",
   "keywords": [
@@ -24,7 +24,9 @@
     "@langchain/core": "^0.2.16",
     "@langchain/openai": "^0.2.2",
     "@next/env": "^14.2.5",
+    "@notionhq/client": "^2.2.15",
     "@plasmohq/messaging": "0.6.0",
+    "@plasmohq/storage": "^1.12.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
@@ -64,7 +66,7 @@
     "next-themes": "^0.3.0",
     "p-limit": "^6.1.0",
     "p-retry": "^6.2.0",
-    "plasmo": "0.88.0",
+    "plasmo": "0.89.3",
     "popover": "^2.4.1",
     "randomcolor": "^0.6.2",
     "react": "18.2.0",
@@ -108,9 +110,12 @@
     "typescript": "5.3.3"
   },
   "manifest": {
+    "host_permissions": [
+      "*://api.notion.com/*"
+    ],
     "permissions": [
       "storage",
-       "tabs"
+      "tabs"
     ],
     "key": "$CRX_PUBLIC_KEY"
   }

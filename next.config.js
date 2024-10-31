@@ -10,7 +10,8 @@ const withBundleAnalyzer = bundleAnalyzer({
 module.exports = withBundleAnalyzer({
     swcMinify: true,
     crossOrigin: 'anonymous',
-    reactStrictMode: false,
+    reactStrictMode: true,
+    
     env: {
         STATIC_URL: isProd ? STATIC_URL : "http://localhost:3000",
     },
